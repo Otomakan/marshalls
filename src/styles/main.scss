@@ -2,8 +2,292 @@
 
 /*Variables for the logo animation*/
 @import url('https://fonts.googleapis.com/css?family=Merriweather');
+
+
+$background-animation-duration: 40s;
+$main-pink: #FF0072;
+$color-collection: ('red', 'purple', 'orange', 'magenta', 'green', 'cyan');
+$intro-time:3s;
+$menu-primary-color: $main-pink;
+$main-bezier: cubic-bezier(.23,1,.32,1);
+
+@mixin pink-border{
+	border:3px solid $main-pink;
+	border-radius:2px
+}
+@mixin left-after-addon{
+	position: absolute;
+		z-index: -1;
+		content: "";
+		right: -10%;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		background-color: inherit;
+		-webkit-transform: skewX(-5deg);
+		-moz-transform: skewX(-5deg);
+		-ms-transform: skewX(-5deg);
+		transform: skewX(-5deg);
+}
+
+@mixin titles{
+	display:table;
+h1,h2{
+			display: inherit;
+			margin:10px;
+			background:white;
+			padding:10px;
+			
+			}
+		h1{
+			padding:15px
+		}
+}
+
+@mixin right-before-addon{
+	z-index: -1;
+	content: "";
+	position: absolute;
+	left: -15%;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	background-color: inherit;
+	-webkit-transform: skewX(-5deg);
+	-moz-transform: skewX(-5deg);
+	-ms-transform: skewX(-5deg);
+	transform: skewX(-5deg);
+		
+}
+//  Author: Rafal Bromirski
+//  www: http://rafalbromirski.com/
+//  github: http://github.com/rafalbromirski/sass-mediaqueries
+//
+//  Licensed under a MIT License
+//
+//  Version:
+//  1.6.1
+
+// --- generator ---------------------------------------------------------------
+
+@mixin mq($args...) {
+  $media-type: 'only screen';
+  $media-type-key: 'media-type';
+  $args: keywords($args);
+  $expr: '';
+
+  @if map-has-key($args, $media-type-key) {
+    $media-type: map-get($args, $media-type-key);
+    $args: map-remove($args, $media-type-key);
+  }
+
+  @each $key, $value in $args {
+    @if $value {
+      $expr: "#{$expr} and (#{$key}: #{$value})";
+    }
+  }
+
+  @media #{$media-type} #{$expr} {
+    @content;
+  }
+}
+
+// --- screen ------------------------------------------------------------------
+
+@mixin screen($min, $max, $orientation: false) {
+  @include mq($min-width: $min, $max-width: $max, $orientation: $orientation) {
+    @content;
+  }
+}
+
+@mixin max-screen($max) {
+  @include mq($max-width: $max) {
+    @content;
+  }
+}
+
+@mixin min-screen($min) {
+  @include mq($min-width: $min) {
+    @content;
+  }
+}
+
+@mixin screen-height($min, $max, $orientation: false) {
+  @include mq($min-height: $min, $max-height: $max, $orientation: $orientation) {
+    @content;
+  }
+}
+
+@mixin max-screen-height($max) {
+  @include mq($max-height: $max) {
+    @content;
+  }
+}
+
+@mixin min-screen-height($min) {
+  @include mq($min-height: $min) {
+    @content;
+  }
+}
+
+// --- hdpi --------------------------------------------------------------------
+
+@mixin hdpi($ratio: 1.3) {
+  @media only screen and (-webkit-min-device-pixel-ratio: $ratio),
+  only screen and (min-resolution: #{round($ratio*96)}dpi) {
+    @content;
+  }
+}
+
+// --- hdtv --------------------------------------------------------------------
+
+@mixin hdtv($standard: '1080') {
+  $min-width: false;
+  $min-height: false;
+
+  $standards: ('720p', 1280px, 720px)
+              ('1080', 1920px, 1080px)
+              ('2K', 2048px, 1080px)
+              ('4K', 4096px, 2160px);
+
+  @each $s in $standards {
+    @if $standard == nth($s, 1) {
+      $min-width: nth($s, 2);
+      $min-height: nth($s, 3);
+    }
+  }
+
+  @include mq(
+    $min-device-width: $min-width,
+    $min-device-height: $min-height,
+    $min-width: $min-width,
+    $min-height: $min-height
+  ) {
+    @content;
+  }
+}
+
+// --- iphone4 -----------------------------------------------------------------
+
+@mixin iphone4($orientation: false) {
+  $min: 320px;
+  $max: 480px;
+  $pixel-ratio: 2;
+  $aspect-ratio: '2/3';
+
+  @include mq(
+    $min-device-width: $min,
+    $max-device-width: $max,
+    $orientation: $orientation,
+    $device-aspect-ratio: $aspect-ratio,
+    $-webkit-device-pixel-ratio: $pixel-ratio
+  ) {
+    @content;
+  }
+}
+
+// --- iphone5 -----------------------------------------------------------------
+
+@mixin iphone5($orientation: false) {
+  $min: 320px;
+  $max: 568px;
+  $pixel-ratio: 2;
+  $aspect-ratio: '40/71';
+
+  @include mq(
+    $min-device-width: $min,
+    $max-device-width: $max,
+    $orientation: $orientation,
+    $device-aspect-ratio: $aspect-ratio,
+    $-webkit-device-pixel-ratio: $pixel-ratio
+  ) {
+    @content;
+  }
+}
+
+// --- iphone6 -----------------------------------------------------------------
+
+@mixin iphone6($orientation: false) {
+  $min: 375px;
+  $max: 667px;
+  $pixel-ratio: 2;
+
+  @include mq(
+    $min-device-width: $min,
+    $max-device-width: $max,
+    $orientation: $orientation,
+    $-webkit-device-pixel-ratio: $pixel-ratio
+  ) {
+    @content;
+  }
+}
+
+// --- iphone6 plus ------------------------------------------------------------
+
+@mixin iphone6-plus($orientation: false) {
+  $min: 414px;
+  $max: 736px;
+  $pixel-ratio: 3;
+
+  @include mq(
+    $min-device-width: $min,
+    $max-device-width: $max,
+    $orientation: $orientation,
+    $-webkit-device-pixel-ratio: $pixel-ratio
+  ) {
+    @content;
+  }
+}
+
+// --- ipad (all) --------------------------------------------------------------
+
+@mixin ipad($orientation: false) {
+  $min: 768px;
+  $max: 1024px;
+
+  @include mq(
+    $min-device-width: $min,
+    $max-device-width: $max,
+    $orientation: $orientation
+  ) {
+    @content;
+  }
+}
+
+// --- ipad-retina -------------------------------------------------------------
+
+@mixin ipad-retina($orientation: false) {
+  $min: 768px;
+  $max: 1024px;
+  $pixel-ratio: 2;
+
+  @include mq(
+    $min-device-width: $min,
+    $max-device-width: $max,
+    $orientation: $orientation,
+    $-webkit-device-pixel-ratio: $pixel-ratio
+  ) {
+    @content;
+  }
+}
+
+// --- orientation -------------------------------------------------------------
+
+@mixin landscape() {
+  @include mq($orientation: landscape) {
+    @content;
+  }
+}
+
+@mixin portrait() {
+  @include mq($orientation: portrait) {
+    @content;
+  }
+}
+
 html{
 	margin:0;
+	scroll-behavior: smooth;
 }
 *{
 	font-family: Calibre,sans-serif;
@@ -12,16 +296,27 @@ body{
 	margin:0;
 	padding: 0;
 	background:black;
-	animation: colored-fill-body 25s infinite;
+	// animation: colored-fill-body $background-animation-duration infinite;
 	animation-delay: 3.1s;
 	overflow-y: none;
+	transition-delay:0;
 }
 
-$color-collection: ('red', 'purple', 'orange', 'magenta', 'green', 'cyan');
+h1{
+	line-height: 51px;
+	font-size: 70px}
+
+h2{
+	font-size: 50px;
+}
+p{
+	font-size: 18px;
+}
+
 
 
 /*Menu thanks to https://codepen.io/ettrics/pen/JoaaxW*/
-$menu-primary-color: red;
+
 
 @mixin menuEaseOut {
   transition: all .4s cubic-bezier(0.23, 1, 0.32, 1)
@@ -34,6 +329,35 @@ $menu-primary-color: red;
 }
 
 /* HELPERS */
+
+// INPUT
+ .input-container{
+		  	margin:10px 0;
+			input{
+				font-size: 20px;
+			  	padding:14px 20px;
+			  	transition:0.5s;
+				@include pink-border;
+				&:focus{
+					outline: none !important;
+					 box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+				}
+			  }
+			  textarea{
+
+				font-size: 20px;
+			  	padding:14px 20px;
+			  	transition:0.5s;
+			  	@include pink-border;
+			  	min-height:70px;
+			  	width:80%;
+			  	&:focus{
+					outline: none !important;
+					 box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+				}
+			  }
+			}
+
 
 .dyptique-container{
 	width:100vw;
@@ -111,7 +435,7 @@ $third:#4426a8;
 }
 
 .flex {
-  min-height:50vh;
+  // min-height:50vh;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -153,8 +477,7 @@ a.bttn-dark {
   width:270px;
   font-weight:bold;
   padding:14px 0px;
-  border:3px solid $primary;
-  border-radius:2px;
+  @include pink-border;
   position:relative;
   box-shadow: 0 2px 10px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.1);
 
@@ -208,6 +531,123 @@ a.bttn-dark {
 }
 /*END BUTTONS*/
 
+
+//* INTRO ANIMATION *//
+// Main Wrapper
+#barba-wrapper{
+	display: none;
+}
+footer{
+	display: none;
+}
+
+#loading-mask-container{
+	width: 100vw;
+	height:100vh;
+	position: absolute;
+	background-color:white;
+	top:0;
+	left:0;
+	background-color: rgba(0,0,0,0);
+	z-index: 1;
+	vertical-align: center;
+
+}
+
+$masked-logo-background:black;
+$masked-logo-color:white;
+#loading-mask-container2{
+	// display: none;
+	width: 100vw;
+	height:100vh;
+	position: absolute;
+	background-color:$masked-logo-background;
+	top:0;
+	left:0;
+	// background-color: rgba(0,0,0,0);
+	z-index: 1;
+	vertical-align: center;
+
+}
+
+$box-size: 300;
+$border-size: 1;
+$speed: 300;
+
+.masked-logo-container-animation{
+  display: block;
+  width: $box-size + px;
+  height: $box-size + px;
+  margin: 120px auto;
+  
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  
+  // Close Icon
+  // Amazing Border Effect
+  span {
+    display: block;
+    width: ($box-size - $border-size) + px;
+    height: ($box-size - $border-size) + px;
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    transition: all $speed + ms cubic-bezier(0, 1, 1, 1);
+    animation: nothing $intro-time ;
+    $borders: (
+      'top': '#{$box-size}px, 0, 0',
+      'right': '0, #{$box-size}px, 0',
+      'bottom': '-#{$box-size}px, 0, 0',
+      'left': '0, -#{$box-size}px, 0'
+    );
+
+    @for $i from 1 through length($borders) {
+
+        $border: nth($borders, $i);
+        $direction: nth($border, 1);
+        $translate: nth($border, 2);
+
+        &:nth-of-type(#{$i}) {
+          border-#{$direction}: $border-size + px solid $masked-logo-color;
+          transform: translate3d(#{$translate});
+          
+          @if($i == 2) or ($i == 4) {
+            transition-delay: $speed + ms;
+          }
+        }
+    }
+  }
+
+}
+@keyframes nothing{
+	from{transform:scale(1);};
+	to{background-color:$masked-logo-color;}
+}
+
+.masked-logo-container{
+	display:flex;
+	width: 90%;
+	height:90%;
+}
+
+#masked-logo{
+	/*position: absolute;*/
+	/*transition: 0.3s;*/
+	width: 100%;
+	height: auto;
+	background-color: $masked-logo-color;
+  display: block;
+	perspective: 1000;
+	filter: blur(.0px);
+z-index: 10;
+	.path-shape{
+		fill:$masked-logo-background;
+		stroke-miterlimit:0;
+	}
+}
 
 /* MENU */
 .header {
@@ -367,7 +807,8 @@ a.bttn-dark {
  }
 
  .menu__link {
-   font-size: 24px;
+    font-size: 24px;
+    font-weight: 700;
  }
 
  .menu__brand {
@@ -382,7 +823,7 @@ a.bttn-dark {
 		left:0;
 		/*transition: 0.3s;*/
 		height: 100%;
-		background-color: $menu-primary-color;
+		background-color: $main-pink;
 		
 		background:white;
 	  	display: block;
@@ -408,13 +849,13 @@ a.bttn-dark {
 	
 // }
 @keyframes menu-light-colored-fill{
-	0%{fill:  mix(black, $menu-primary-color, 20)};
+	0%{fill:  mix(black, $main-pink, 20)};
 	5%{fill:transparentize(black, 1)};
-	16%{ fill: mix(black, $menu-primary-color, 20);};
+	16%{ fill: mix(black, $main-pink, 20);};
 	26%{fill:transparentize(black, 1)};
-	40%{ fill: mix(black, $menu-primary-color, 20);};
+	40%{ fill: mix(black,$main-pink, 20);};
 	
-	100%{ fill: mix(black, $menu-primary-color, 20);};
+	100%{ fill: mix(black, $main-pink, 20);};
 }
 
 // Big version of menu logo
@@ -464,6 +905,7 @@ footer{
 	.dyptique-container{
 		.section{
 			background-color: white;
+			margin-bottom: 0;
 		}
 		.section.left{
 			height: 30vh;
@@ -476,117 +918,7 @@ footer{
 }
 /*END FOOTER */
 
-#loading-mask-container{
-	width: 100vw;
-	height:100vh;
-	position: absolute;
-	background-color:white;
-	top:0;
-	left:0;
-	background-color: rgba(0,0,0,0);
-	z-index: 1;
-	vertical-align: center;
 
-}
-#loading-mask-container2{
-	width: 100vw;
-	height:100vh;
-	position: absolute;
-	background-color:white;
-	top:0;
-	left:0;
-	background-color: rgba(0,0,0,0);
-	z-index: 1;
-	vertical-align: center;
-
-}
-
-$box-size: 300;
-$border-size: 1;
-$speed: 300;
-
-.masked-logo-container-animation{
-  display: block;
-  width: $box-size + px;
-  height: $box-size + px;
-  margin: 120px auto;
-  
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-  
-  
-  /////////////////////////////
-  // Close Icon
-
-  
-
-  
-  
-  /////////////////////////////
-  // Amazing Border Effect
-  span {
-    display: block;
-    width: ($box-size - $border-size) + px;
-    height: ($box-size - $border-size) + px;
-    
-    position: absolute;
-    top: 0;
-    left: 0;
-    
-    transition: all $speed + ms cubic-bezier(0, 1, 1, 1);
-    animation: nothing 3s ;
-    $borders: (
-      'top': '#{$box-size}px, 0, 0',
-      'right': '0, #{$box-size}px, 0',
-      'bottom': '-#{$box-size}px, 0, 0',
-      'left': '0, -#{$box-size}px, 0'
-    );
-
-    @for $i from 1 through length($borders) {
-
-        $border: nth($borders, $i);
-        $direction: nth($border, 1);
-        $translate: nth($border, 2);
-
-        &:nth-of-type(#{$i}) {
-          border-#{$direction}: $border-size + px solid #fff;
-          transform: translate3d(#{$translate});
-          
-          @if($i == 2) or ($i == 4) {
-            transition-delay: $speed + ms;
-          }
-        }
-    }
-  }
-
-}
-@keyframes nothing{
-	from{transform:scale(1);};
-	to{background-color:black;}
-}
-
-.masked-logo-container{
-	display:flex;
-	width: 90%;
-	height:90%;
-}
-
-#masked-logo{
-	/*position: absolute;*/
-	/*transition: 0.3s;*/
-	width: 100%;
-	height: auto;
-	background-color: white;
-  display: block;
-	perspective: 1000;
-	filter: blur(.0px);
-z-index: 10;
-	.path-shape{
-		fill:black;
-		stroke-miterlimit:0;
-	}
-}
 
 
 
@@ -789,6 +1121,17 @@ z-index: 10;
 	100%{background:black;}
 
 }
+
+@keyframes colored-color-span{
+	0%{color:black;}
+	20%{color:red;}
+	40%{color:purple;}
+	60%{color:orange;}
+	80%{color:cyan;}
+	95%{color:magenta;}
+	100%{color:black;}
+
+}
 @keyframes colored-fill-reverse{
 	0%{fill:black;}
 	20%{fill:magenta;}
@@ -803,7 +1146,7 @@ z-index: 10;
 	min-width: 400px;
 	animation: first-section-in-left 0.6s forwards ;
 	opacity: 0;
-	animation-delay: 3s;
+	// animation-delay: 3s;
 	transition:2s;
 	width:45%;
 	height:100vh;
@@ -856,21 +1199,33 @@ z-index: 10;
 	filter: blur(.0px);
 	z-index: 10;
 	.m-leg-part{
-		animation: colored-fill-reverse 25s infinite;
-		animation-delay: 3.1s;
+		animation: colored-fill-reverse $background-animation-duration infinite;
+		// animation-delay: 3.1s;
 	}
 
 	.m-foot-part{
-		animation: colored-fill 25s infinite;
-		animation-delay: 3.5s;
+		animation: colored-fill $background-animation-duration infinite;
+		// animation-delay: 3.5s;
 	}
 	
 	}
 }
+
+.fade-in{
+	transition:2s;
+	opacity: 1;
+
+	transform:translateX(0vw)
+}
+.fade-out{
+	transition:1.4s;
+	opacity: 0;
+	transform:translateX(120vw)
+}
 .right-first-section-test{
 	animation: first-section-in-right 0.6s forwards ;
 	opacity: 0;
-	animation-delay: 3s;
+	// animation-delay: 3s;
 	min-width: 400px;
 	transform:translateX(120%);
 	transition:2s;
@@ -952,7 +1307,7 @@ z-index: 10;
 #home-second-section-test{
 	margin-bottom: 12px;
 	z-index: 100;
-	display: none;
+	display: flex;
 	width:100vw;
 	justify-content: space-between;
 
@@ -1059,7 +1414,9 @@ z-index: 10;
 		}
 	}
 	#second-section-right-side{
-		transition: 2s;
+		transition: 2s;	
+		min-width: 600px;
+
 
 		margin:0;
 		width: 48%;
@@ -1076,7 +1433,7 @@ z-index: 10;
 		position: absolute;
 		left: -15%;
 		top: 0;
-		height: 100vh;
+		height: 100%;
 		width: 100%;
 		background-color: inherit;
 		-webkit-transform: skewX(-5deg);
@@ -1097,5 +1454,263 @@ z-index: 10;
 			height: 30vw;
 			z-index: 2;
 		}
+	}
+}
+
+
+/* ABOUT PAGE */
+
+// Move this in helpers later
+
+.mono-container{
+	// min-height:90vh;
+	// width:80vw;
+	margin-left: auto;
+	margin-right:auto;
+	padding:40px;
+	flex-flow:column;
+	@media screen and (max-width: 768px) {
+     	padding:8px;
+  	}
+	// background-color: white;
+	.titles{
+		display:table;
+		// align-self:flex-start;
+		h1,h2{
+			display: inherit;
+			margin:10px;
+			background:white;
+			padding:10px;
+			
+			}
+		h1{
+			padding:15px
+		}
+	}
+	
+	@keyframes change-span-colors{
+		2%{color:black}
+		10%{color:$main-pink;}
+		18%{color:black}
+	}
+	.about-text-container {
+		background: transparent;
+	    width: 50vw;
+	    @include min-screen(870px) {
+  				width:80vw;
+	    		margin-left: 60px;
+  				// background-color: red;
+			}
+		.about-text{
+			min-height: 80vh;
+			min-width: 350px;
+		
+			width: 600px;
+    		// padding: 40px;
+    		padding-right:0;
+    		@include max-screen(870px) {
+  				width:80vw;
+  				margin-left:auto;
+			}
+    		p{
+    			font-size: 30px;
+    			position: relative;
+    			color:black;
+			    padding: 40px;
+			    text-transform: uppercase;
+			    /* background: #fff; */
+			    color: white;
+				 &:after {
+					@include left-after-addon
+					width:10%;
+					left:-5%;
+				
+				}
+				 &:before {
+					@include right-before-addon
+					width:10%;
+					left:-5%;
+					transform: skewX(-5%)
+
+				}
+
+    			span{
+    				animation: change-span-colors 10s infinite;
+    			}
+    			@for $i from 0 to 10 {
+				  span:nth-child(#{$i}) {
+				  	// color: nth($color-collection, $i)
+				  	animation-delay: 0.3s*$i
+				}    			
+			}
+    		}
+
+			@for $i from 0 through 3{
+				p:nth-child($i){
+					@if $i % 2 == 0 {
+						text-align:right;
+					}
+				}
+			}
+		// 	&:before {
+		// 	z-index: -1;
+		// 	content: "";
+		// 	position: absolute;
+		// 	left: -15%;
+		// 	top: 0;
+		// 	height: 100%;
+		// 	width: 100%;
+		// 	background-color: inherit;
+		// 	-webkit-transform: skewX(-5deg);
+		// 	-moz-transform: skewX(-5deg);
+		// 	-ms-transform: skewX(-5deg);
+		// 	transform: skewX(-5deg);
+		// }
+		position: relative;
+		
+		}
+	}
+	
+	.profile-picture-wrapper{
+		height:40vh;
+		width:auto;
+		background: white;
+		#about-profile-picture{
+			height: 100px;
+
+		}
+	}
+}
+.about-random-piece{
+		background-color: white;
+		position: absolute;
+		z-index: -1;
+		content: "";
+		right: 0%;
+		top: 0;
+		height: 100vh;
+		width: 60%;
+		-webkit-transform: skewX(-5deg);
+		-moz-transform: skewX(-5deg);
+		-ms-transform: skewX(-5deg);
+		transform: skewX(-5deg);
+		.random-piece-svg-container{
+			position: relative;
+			height:100vh;
+			transition:0.6s;
+			svg{
+				position: absolute;
+				top:0;
+				right:0;
+				/*transition: 0.3s;*/
+				height: 100%;
+				/*background-color: black;*/
+				background:white;
+			  	display: block;
+				filter: blur(.0px);
+				z-index: 10;
+				path{
+					animation: colored-fill $background-animation-duration infinite;
+					animation-delay: 3.1s;
+					// animation-delay: 3.1s;
+				}
+
+			.p-head-part{
+				animation: colored-fill $background-animation-duration infinite;
+				// animation-delay: 3.5s;
+			}
+		}	
+	}
+}
+
+.contact-us-titles{
+		@include titles;
+		h1,h2{
+			background-color:transparent;
+		}
+	}
+.dyptique-container.about{
+	// flex-direction:column-reverse;
+	.section.left{
+		min-width: 340px;
+		@include max-screen(870px){
+
+			height:auto;
+			width:85vw;
+			h2{
+				margin-left:40px;
+			}
+			p{
+				font-size: 30px;
+				margin-left:50px;
+			}
+		}
+	}
+	.section.right{
+			
+		min-width: 400px;
+	    text-align: center;
+	    justify-content: center;
+	    height: auto;
+	    .contact-form-container{
+	// position: absolute;
+
+	// top:0;
+	// left:0;
+	margin-left: auto;
+	// background-color:;
+  	// height:100%;
+	display:inline-block;
+	align-items:center;
+	justify-content:center;
+	text-align: center;
+	padding:30px 0;
+	// width:100vw;
+	margin-bottom: 40px;
+	@include max-screen(870px){
+				padding:0;
+				width:100%;
+	}
+	
+	.contact-form{
+		position: relative;
+		@include pink-border;
+	  	font-size:18px;
+	  	letter-spacing:2px;
+	 	text-transform:uppercase;
+	  	display:inline-block;
+	  	text-align:center;
+	  	width:270px;
+	  	font-weight:bold;
+	  	padding:14px 20px;
+	  	margin: 40px 0 ;
+	  	margin-bottom: 20px;
+	  	// width:100vw;
+		@include max-screen(870px){
+					border: 0px solid white;
+					display: block;
+				
+		}
+		
+	  	input{
+	  		width:80%;
+		}
+	}
+	@include max-screen(870px){
+		.flex{
+					display: block;
+					-webkit-align-items: left;
+					-webkit-justify-content: left;
+				    -ms-flex-pack: left;
+				    justify-content: left;
+				    padding:14px 20px;
+				    margin-bottom: 40px;
+				a{
+					float: left
+				}
+				}
+			}
+}
+
 	}
 }
